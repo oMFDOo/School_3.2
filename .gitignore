@@ -47,3 +47,6 @@
 *.user
 *.vcxproj
 6.컴퓨터그래픽스/연습/openGL/Debug/openGL.vcxproj.FileListAbsolute.txt
+*.ipdb
+*.iobj
+6.컴퓨터그래픽스/연습/openGL/Release/openGL.vcxproj.FileListAbsolute.txt
