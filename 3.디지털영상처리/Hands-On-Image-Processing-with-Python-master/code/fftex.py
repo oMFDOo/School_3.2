@@ -8,14 +8,16 @@ import numpy.fft
 imsrc = np.array(Image.open('../images/rhino.jpg').convert('L'))
 
 freqsrc = fp.fft2(imsrc)
-ftsrc =20*np.log10( 0.01 + np.abs(fp.fftshift(freqsrc)))
-ftsrcinv = fp.ifft2(freqsrc).real
+ftsrc =20*np.log10( 0.01 + np.abs(fp.fftshift(freqsrc))) # 스펙트럼 사상
+ftsrcinv = fp.ifft2(freqsrc).real # 실수공간의 데이터만을 복호화
 
 # add noise
 imcpy = np.copy(imsrc)
 ly, lx = imcpy.shape
 
+# 0에서 ly까지 10의 간격으로 반복하라.
 for y in range(0, ly, 10): 
+    # [y, :] : Y부터 전부다
     imcpy[y, :] = 0
     
 freqcpy = fp.fft2(imcpy)
