@@ -31,62 +31,47 @@ void sphere(void) {
 	delta_theta = 2 * PI / M;	// 위도
 	delta_phi = PI / N;			// 경도
 
-	//// 각 정점 값 설정
-	//for (int j = 0; j <= N; j++) {
-	//	for (int i = 0; i < M; i++) {
-	//		// 각 위/경도에 맞는 델타, 파이값 설정
-	//		theta = i * delta_theta;
-	//		phi = j * delta_phi - (PI / 2.0);
+	// 각 정점 값 설정
+	for (int j = 0; j <= N; j++) {
+		for (int i = 0; i < M; i++) {
+			// 각 위/경도에 맞는 델타, 파이값 설정
+			theta = i * delta_theta;
+			phi = j * delta_phi - (PI / 2.0);
 
-	//		// 
-	//		vertices[i][j].x = radius * cos(theta) * cos(phi);
-	//		vertices[i][j].y = radius * sin(theta) * cos(phi);
-	//		vertices[i][j].z = radius * sin(phi);
-	//	}
-	//}
-
-	//for (int j = 0; j < N; j++) {
-	//	for (int i = 0; i < M; i++) {
-	//		
-	//		theta = i * delta_theta;
-	//		phi = j * delta_phi - (PI / 2);
-
-	//		// 각 정점값을 설정하여 그리기
-	//		glColor3f(1.0, 1.0, 0.0);
-	//		glBegin(GL_POLYGON);
-	//		glVertex3f(vertices[i][j].x, vertices[i][j].y, vertices[i][j].z);
-	//		glVertex3f(vertices[(i + 1) % M][j].x, vertices[(i + 1) % M][j].y, vertices[(i + 1) % M][j].z);
-	//		glVertex3f(vertices[(i + 1) % M][j + 1].x, vertices[(i + 1) % M][j + 1].y, vertices[(i + 1) % M][j + 1].z);
-	//		glVertex3f(vertices[i][j + 1].x, vertices[i][j + 1].y, vertices[i][j + 1].z);
-	//		glEnd();
-	//	}
-	//}
-
-	double x, y, z, c = 0.3;
-	for (float phi = -90.0; phi <= 70.0; phi += 20.0)
-	{
-		glBegin(GL_QUAD_STRIP);
-		for (float theta = -180.0; theta <= 180.0; theta += 20.0)
-		{
-			x = sin(c * theta) * cos(c * phi);
-			y = cos(c * theta) * cos(c * phi);
-			z = sin(c * phi);
-			glVertex3d(x, y, z);
-			x = sin(c * theta) * cos(c * (phi + 20.0));
-			y = cos(c * theta) * cos(c * (phi + 20.0));
-			z = sin(c * (phi + 20.0));
-			glVertex3d(x, y, z);
+			// 삼각함수에 따른 각 점의 위치 구하기
+			vertices[i][j].x = radius * cos(theta) * cos(phi);
+			vertices[i][j].y = radius * sin(theta) * cos(phi);
+			vertices[i][j].z = radius * sin(phi);
 		}
-		glEnd();
+	}
+
+	for (int j = 0; j < N; j++) {
+		for (int i = 0; i < M; i++) {
+			
+			theta = i * delta_theta;
+			phi = j * delta_phi - (PI / 2);
+
+			// 각 정점값을 설정하여 그리기
+			glColor3f(1.0, 1.0, 0.0);
+			 glBegin(GL_POLYGON); // 면 그리기
+			// glBegin(GL_LINE_STRIP); // 라인 그리기
+			
+			// 구의 표면 사각형 그리기
+			glVertex3f(vertices[i][j].x, vertices[i][j].y, vertices[i][j].z); // 기준 점
+			glVertex3f(vertices[(i + 1) % M][j].x, vertices[(i + 1) % M][j].y, vertices[(i + 1) % M][j].z);
+			glVertex3f(vertices[(i + 1) % M][j + 1].x, vertices[(i + 1) % M][j + 1].y, vertices[(i + 1) % M][j + 1].z);
+			glVertex3f(vertices[i][j + 1].x, vertices[i][j + 1].y, vertices[i][j + 1].z);
+			glEnd();
+		}
 	}
 }
 
 
-// 조명 처리
+// 조명 처리 : 왜 저는 교수님처럼 예쁜 조명이 안 될까요
 float   light0_position[] = { 2.8, 1.0, -1.5, 1.0 };
-float   light0_ambient[] = { 2.0, 1.0, 1.5, 1.0 };
-float   light0_diffuse[] = { 2.0, 1.0, 1.5, 1.0 };
-float   light0_specular[] = { 2.0, 1.0, 1.5, 1.0 };
+float   light0_ambient[] = { 2.0, 1.0, 1.5, 1.0 };	// 주변광
+float   light0_diffuse[] = { 2.0, 1.0, 1.5, 1.0 };	// 분산광
+float   light0_specular[] = { 2.0, 1.0, 1.5, 1.0 };	// 반사광
 
 void init(void) {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -95,10 +80,12 @@ void init(void) {
 	camera_phi = 0.0;
 	camera_radius = 3.2;
 
+	// 깊이 테스트 실행
 	glEnable(GL_DEPTH_TEST);
 
-	// 쉐이드 모델 설정
-	glShadeModel(GL_SMOOTH);
+	// 쉐이드 모델 설정 
+	glShadeModel(GL_FLAT);
+	//glShadeModel(GL_SMOOTH);
 
 	// 깊이 테스트 실행 및 조명 활성화
 	glEnable(GL_DEPTH_TEST);
@@ -187,6 +174,7 @@ void special_key(int key, int x, int y)
 
 void my_key(unsigned char key, int x, int y)
 {
+	// 줌을 이렇게 하는 거였구나...
 	switch (key) {
 	case 'a':		camera_radius += 0.01;		break;
 	case 's':		camera_radius -= 0.01;		break;
