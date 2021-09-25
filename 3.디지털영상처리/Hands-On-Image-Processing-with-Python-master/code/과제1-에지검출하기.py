@@ -86,7 +86,7 @@ def canny_func(im, t):
 
 im = []
 for i in range(3):
-    path_ = '../images/' + str(i+1) +'.jpg'
+    path_ = '../images/' + str(3) +'.jpg'
     im.append(rgb2gray(imread(path_)))
     
     
