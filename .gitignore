@@ -51,3 +51,8 @@
 *.iobj
 6.컴퓨터그래픽스/연습/openGL/Release/openGL.vcxproj.FileListAbsolute.txt
 3.디지털영상처리/강의자료/ex.txt
+*.dsp
+*.opt
+*.ncb
+*.dsw
+*.CopyComplete
