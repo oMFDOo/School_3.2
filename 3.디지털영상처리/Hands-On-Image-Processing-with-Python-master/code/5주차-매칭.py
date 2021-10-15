@@ -21,8 +21,8 @@ from skimage.exposure import rescale_intensity
 from skimage.measure import ransac
 
  
-
-temple = rgb2gray(img_as_float(imread('../images/temple.jpg')))
+#%% 매칭
+temple = rgb2gray(img_as_float(imread('../images/5.jpg')))
 
 image_original = temple.copy()
 
