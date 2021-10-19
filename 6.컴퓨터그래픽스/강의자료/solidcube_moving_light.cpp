@@ -9,8 +9,6 @@ using namespace std;
 #define width	800
 #define height	800
 
-float	object_radius = 30.0f;
-
 float	angle = 0.0f;
 float	camera_radius = 100.0f;
 int		object_type = 1;
@@ -44,12 +42,6 @@ int		currentColor = 1;
 bool	spotEnabled = true;
 
 int		v_no, f_no;
-
-float	groundZposition = -80.0f;
-float	objectDistance;
-float	objectZposition = 70.0;
-float	objectZvelocity = -0.05;
-
 
 
 void	Initialize(void)
@@ -118,15 +110,15 @@ void	display(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	camera_setting();
-
+	
 	glDisable(GL_LIGHTING);
 	Draw_Axis();
 	glEnable(GL_LIGHTING);
 
 
 	glPushMatrix();
-	/*glRotatef(redYRot, 0.0f, 1.0f, 0.0f);
-	glRotatef(redXRot, 1.0f, 0.0f, 0.0f);*/
+	glRotatef(redYRot, 0.0f, 1.0f, 0.0f);
+	glRotatef(redXRot, 1.0f, 0.0f, 0.0f);
 
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR);
 
@@ -158,47 +150,28 @@ void	display(void)
 		break;
 	}
 
-
-
 	glPushAttrib(GL_LIGHTING_BIT);
 	glDisable(GL_LIGHTING);
 	glutSolidSphere(2.5f, 100, 100);
-
-	
 	glEnable(GL_LIGHTING);
 	glPopAttrib();
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.0f, 0.0f, groundZposition);
-	glScalef(1.0f, 1.0f, 0.01f);
-	glutSolidCube(400.0f);
-	glPopMatrix();
-
-
-	glPushMatrix();
-	//glRotatef(objectXRot, 1.0f, 0.0f, 0.0f);
-	//glRotatef(objectYRot, 0.0f, 1.0f, 0.0f);
-	//glRotatef(objectZRot, 0.0f, 0.0f, 1.0f);
-
+	glRotatef(objectXRot, 1.0f, 0.0f, 0.0f);
+	glRotatef(objectYRot, 0.0f, 1.0f, 0.0f);
+	glRotatef(objectZRot, 0.0f, 0.0f, 1.0f);
+	
 	switch (object_type) {
-	case 1:	glutSolidCube(30.0f);				break;
+	case 1:	glutSolidCube(70.0f);				break;
 	case 2:	glutSolidSphere(30.0f, 100, 100);	break;
 	case 3:glutSolidTorus(10.f, 30.f, 100, 100); break;
 	default: break;
 	}
 	glPopMatrix();
 
-
 	glFlush();
 	glutSwapBuffers();
-
-	objectDistance = (objectZposition - object_radius) - groundZposition;
-	if ((objectZvelocity < 0 && objectDistance < 0) ||
-		(objectZvelocity > 0 && objectDistance > 150))
-		objectZvelocity *= -1.0;
-
-	objectZposition += objectZvelocity;
 
 	objectXRot += 0.002f;
 	objectYRot += 0.004f;
@@ -226,7 +199,7 @@ void my_keyboeard(unsigned char key, int x, int y) {
 	case 'r':	currentColor = 1;	break;
 	case 'g':	currentColor = 2;	break;
 	case 'b':	currentColor = 3;	break;
-	case 's':
+	case 's':	
 		if (spotEnabled) {
 			spotEnabled = false;
 			glDisable(GL_LIGHT0);
@@ -241,8 +214,8 @@ void my_keyboeard(unsigned char key, int x, int y) {
 	glutPostRedisplay();
 }
 
-int main(int argc, char** argv) {
-	glutInit(&argc, argv);
+void main(void)
+{
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(width, height);

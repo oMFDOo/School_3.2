@@ -6,14 +6,14 @@ using namespace std;
 #include <stdlib.h>
 #include <string.h>
 
-#define width	800
-#define height	800
-
-float	object_radius = 30.0f;
+#define		PI		3.1415926 
+#define		width	800
+#define		height	800
 
 float	angle = 0.0f;
-float	camera_radius = 100.0f;
-int		object_type = 1;
+float	camera_radius, camera_theta, camera_phi;
+int		object_type = 2;
+float	object_radius = 30.0f;
 
 float	lightPositionR[] = { 0.0f, 0.0f, 75.0f, 1.0f };
 float	lightPositionG[] = { 0.0f, 0.0f, 75.0f, 1.0f };
@@ -33,27 +33,25 @@ float	diffuseLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
 float	specularLight[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 float	lightPosition[] = { 0.0f, 0.0f, 100.0f, 1.0f };
 
-float	objectXRot;
-float	objectYRot;
-float	objectZRot;
+float	objectZposition = 70.0;
+float	objectZvelocity = -0.05;
 
-float	redXRot;
-float	redYRot;
+float	groundZposition = -80.0f;
+float	objectDistance ;
 
 int		currentColor = 1;
+int		draw_type = 1;
 bool	spotEnabled = true;
 
 int		v_no, f_no;
 
-float	groundZposition = -80.0f;
-float	objectDistance;
-float	objectZposition = 70.0;
-float	objectZvelocity = -0.05;
-
-
 
 void	Initialize(void)
 {
+	camera_radius = 250.0f;
+	camera_theta = 0.4;
+	camera_phi = 0.3;
+
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -104,12 +102,18 @@ void Draw_Axis(void) {
 
 
 void camera_setting(void) {
+	float	x, y, z;
+
+	x = camera_radius * cos(camera_theta)*cos(camera_phi);
+	y = camera_radius * sin(camera_theta)*cos(camera_phi);
+	z = camera_radius * sin(camera_phi);
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(54.0f, 1.0f, 1.0f, 1000.0f);
+	gluPerspective(60.0f, 1.0f, 1.0f, 1000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(camera_radius, camera_radius, 0.5 * camera_radius, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+	gluLookAt(x, y, z, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
 }
 
 void	display(void)
@@ -119,16 +123,12 @@ void	display(void)
 
 	camera_setting();
 
+
 	glDisable(GL_LIGHTING);
 	Draw_Axis();
 	glEnable(GL_LIGHTING);
 
-
 	glPushMatrix();
-	/*glRotatef(redYRot, 0.0f, 1.0f, 0.0f);
-	glRotatef(redXRot, 1.0f, 0.0f, 0.0f);*/
-
-	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR);
 
 	switch (currentColor) {
 	case 1:
@@ -136,7 +136,6 @@ void	display(void)
 		glLightfv(GL_LIGHT1, GL_EMISSION, diffuseLightR);
 		glLightfv(GL_LIGHT1, GL_SPECULAR, specularLightR);
 		glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR);
-		glTranslatef(lightPositionR[0], lightPositionR[1], lightPositionR[2]);
 		glColor3f(1.0f, 0.0f, 0.0f);
 		break;
 	case 2:
@@ -144,7 +143,6 @@ void	display(void)
 		glLightfv(GL_LIGHT1, GL_EMISSION, diffuseLightG);
 		glLightfv(GL_LIGHT1, GL_SPECULAR, specularLightG);
 		glLightfv(GL_LIGHT1, GL_POSITION, lightPositionG);
-		glTranslatef(lightPositionG[0], lightPositionG[1], lightPositionG[2]);
 		glColor3f(0.0f, 1.0f, 0.0f);
 		break;
 
@@ -153,59 +151,53 @@ void	display(void)
 		glLightfv(GL_LIGHT1, GL_EMISSION, diffuseLightB);
 		glLightfv(GL_LIGHT1, GL_SPECULAR, specularLightB);
 		glLightfv(GL_LIGHT1, GL_POSITION, lightPositionB);
-		glTranslatef(lightPositionB[0], lightPositionB[1], lightPositionB[2]);
 		glColor3f(0.0f, 0.0f, 1.0f);
 		break;
 	}
-
-
-
-	glPushAttrib(GL_LIGHTING_BIT);
-	glDisable(GL_LIGHTING);
-	glutSolidSphere(2.5f, 100, 100);
-
 	
-	glEnable(GL_LIGHTING);
-	glPopAttrib();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.0f, 0.0f, groundZposition);
-	glScalef(1.0f, 1.0f, 0.01f);
-	glutSolidCube(400.0f);
-	glPopMatrix();
-
-
-	glPushMatrix();
-	//glRotatef(objectXRot, 1.0f, 0.0f, 0.0f);
-	//glRotatef(objectYRot, 0.0f, 1.0f, 0.0f);
-	//glRotatef(objectZRot, 0.0f, 0.0f, 1.0f);
+	glTranslatef(0.0f, 0.0f, objectZposition);
 
 	switch (object_type) {
-	case 1:	glutSolidCube(30.0f);				break;
-	case 2:	glutSolidSphere(30.0f, 100, 100);	break;
-	case 3:glutSolidTorus(10.f, 30.f, 100, 100); break;
+	case 1:	object_radius = 35.0f;
+			if (draw_type % 2)
+				glutSolidCube(2*object_radius);				  
+			else
+				glutWireCube(2*object_radius);			
+			break;
+	case 2:	object_radius = 30.0f;
+			if (draw_type % 2)
+				glutSolidSphere(object_radius, 100, 100);	  
+			else
+				glutWireSphere(object_radius, 100, 100);	  
+			break;
+	case 3: object_radius = 30.0f; 
+			if (draw_type % 2)
+				glutSolidTorus(20.0f, object_radius, 100, 100);
+			else 
+				glutWireTorus(20.0f, object_radius, 100, 100);
+			break;
 	default: break;
 	}
 	glPopMatrix();
 
+	glDisable(GL_LIGHTING);
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glPushMatrix();
+		glTranslatef(0.0f, 0.0f, groundZposition);
+		glScalef(1.0f, 1.0f, 0.01f);
+		glutSolidCube(400.0f);
+	glPopMatrix();
+	glEnable(GL_LIGHTING);
 
 	glFlush();
 	glutSwapBuffers();
 
 	objectDistance = (objectZposition - object_radius) - groundZposition;
-	if ((objectZvelocity < 0 && objectDistance < 0) ||
-		(objectZvelocity > 0 && objectDistance > 150))
+	if  ( (objectZvelocity < 0 && objectDistance < 0) ||
+		  (objectZvelocity > 0 && objectDistance > 150) )
 		objectZvelocity *= -1.0;
-
-	objectZposition += objectZvelocity;
-
-	objectXRot += 0.002f;
-	objectYRot += 0.004f;
-	objectZRot += 0.002f;
-
-	redXRot += 0.03f;
-	redYRot += 0.01f;
+	
+	objectZposition += objectZvelocity;	
 }
 
 
@@ -219,9 +211,14 @@ void  reshape(int w, int h) {
 
 void my_keyboeard(unsigned char key, int x, int y) {
 	switch (key) {
+	case 'o':	camera_radius += 1.0f; break;
+	case 'p':	camera_radius -= 1.0f; break;
+
 	case '1':	object_type = 1;	break;
 	case '2':	object_type = 2;	break;
 	case '3':	object_type = 3;	break;
+	
+	case 'd':	draw_type++;		break;
 
 	case 'r':	currentColor = 1;	break;
 	case 'g':	currentColor = 2;	break;
@@ -241,8 +238,30 @@ void my_keyboeard(unsigned char key, int x, int y) {
 	glutPostRedisplay();
 }
 
-int main(int argc, char** argv) {
-	glutInit(&argc, argv);
+void special_key(int key, int x, int y)
+{
+	switch (key) {
+	case GLUT_KEY_LEFT:		camera_theta -= 0.01; 	break;
+	case GLUT_KEY_RIGHT:	camera_theta += 0.01;	break;
+	case GLUT_KEY_UP:		camera_phi += 0.01;		break;
+	case GLUT_KEY_DOWN:		camera_phi -= 0.01;		break;
+	default: break;
+	}
+	if (camera_theta > 2.0 * PI)
+		camera_theta -= (2.0 * PI);
+	else if (camera_theta < 0.0)
+		camera_theta += (2.0 * PI);
+
+	if (camera_phi > PI / 2.0)
+		camera_phi -= PI;
+	else if (camera_phi < -PI / 2.0)
+		camera_theta += PI;
+
+	glutPostRedisplay();
+}
+
+void main(void)
+{
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(width, height);
@@ -251,6 +270,7 @@ int main(int argc, char** argv) {
 	glutDisplayFunc(display);
 	glutKeyboardFunc(my_keyboeard);
 	glutReshapeFunc(reshape);
+	glutSpecialFunc(special_key);
 	glutIdleFunc(display);
 	glutMainLoop();
 }
