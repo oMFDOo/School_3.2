@@ -66,7 +66,7 @@ from skimage.draw import circle_perimeter
 from skimage.io import imread, imsave
 from skimage.color import rgb2gray, gray2rgb, label2rgb
 
-image = rgb2gray(imread('../images/triangle_circle.png'))
+image = rgb2gray(imread('../images/8.jpg'))
 
 # 기본적인 하프변환 방식
 # 리턴값
@@ -76,7 +76,7 @@ h, theta, d = hough_line(image)
 
 # 원을 찾자!
 # 50부터 100까지 1씩 반지름을 증가하면서 찾자!
-hough_radii = np.arange(50, 100, 2)
+hough_radii = np.arange(1, 50, 2)
 hough_res = hough_circle(image, hough_radii)
 # 교차 점 중 쓸만한 친구 가져오기 -> 중심점과 반지름 세트를 가져온다
 accums, cx, cy, radii = hough_circle_peaks(hough_res, hough_radii, total_num_peaks=6)
