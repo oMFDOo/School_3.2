@@ -36,23 +36,23 @@ def zero_cross(image, T=0):
 #%% 오츄 알고리즘
 
 
-image = rgb2gray(imread('../images/5.jpg'))
+image = rgb2gray(imread('../images/8.jpg'))
 
 # 오츄 알고리즘 적용
-thresh = threshold_otsu(image)
-binary = image > (thresh * 1.2)
+# thresh = threshold_otsu(image)
+# binary = image > (thresh * 1.2)
 
 # LoG
-#im_g = filters.gaussian(image, 2)
-#im_l = filters.laplace(im_g)
-#binary = zero_cross(im_l, T=np.max(im_l)*0.015)
+# im_g = filters.gaussian(image, 2)
+# im_l = filters.laplace(im_g)
+# binary = zero_cross(im_l, T=np.max(im_l)*0.015)
 
 # DoG
-# im_dog = filters.difference_of_gaussians(image, 2.0)
-# binary = zero_cross(im_dog, T=np.max(im_dog)*0.04)
+im_dog = filters.difference_of_gaussians(image, 2.0)
+binary = zero_cross(im_dog, T=np.max(im_dog)*0.04)
 
 # 캐니
-#binary = feature.canny(image, sigma=2)
+# binary = feature.canny(image, sigma=2)
 
 
 binary = binary.astype('bool')
@@ -71,7 +71,7 @@ ax = axes.ravel()
 
 
 
-hough_radii = np.arange(110, 150, 2)
+hough_radii = np.arange(30, 80, 1)
 hough_res = hough_circle(binary, hough_radii)
 
 ax[0].imshow(image, cmap=cm.gray)
@@ -100,12 +100,12 @@ ax[2].set_title('Detected lines', size=20)
 
 
 # Select the most prominent 5 circles
-accums, cx, cy, radii = hough_circle_peaks(hough_res, hough_radii, total_num_peaks=10)
+accums, cx, cy, radii = hough_circle_peaks(hough_res, hough_radii, total_num_peaks=5)
 
 image = gray2rgb(image)
 for center_y, center_x, radius in zip(cy, cx, radii):
     circy, circx = circle_perimeter(center_y, center_x, radius)
-    image[circy, circx] = (0.1, 0.1, 0.9)
+    image[circy, circx] = (0.9, 0.1, 0.1)
 
 ax[3].imshow(image, cmap=plt.cm.gray)
 ax[3].set_axis_off()
