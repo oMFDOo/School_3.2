@@ -22,7 +22,7 @@ from skimage.measure import ransac
 
  
 #%% 매칭
-temple = rgb2gray(img_as_float(imread('../images/5.jpg')))
+temple = rgb2gray(img_as_float(imread('../images/temple.jpg')))
 
 image_original = temple.copy()
 

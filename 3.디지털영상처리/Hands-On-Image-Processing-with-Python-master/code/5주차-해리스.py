@@ -64,15 +64,15 @@ pylab.tight_layout(), pylab.show()
 #%%
 #image = imread('../images/chess_football.png') # RGB image
 
-image = imread('../images/4.jpg') # RGB image
+image = imread('../images/chess_football.png') # RGB image
 
 
 image_harris = image.copy()
 image_gray = rgb2gray(image)
 
 coordinates = corner_harris(image_gray, k =0.01)
-#image_harris[coordinates>0.01*coordinates.max()]=[255,0,0,255]
-image_harris[coordinates>0.01*coordinates.max()]=[255,0,0]
+image_harris[coordinates>0.01*coordinates.max()]=[255,0,0,255]
+#image_harris[coordinates>0.01*coordinates.max()]=[255,0,0]
 
 corner_coordinates = corner_peaks(coordinates, min_distance=5, threshold_rel=0.01)
 coordinates_subpix = corner_subpix(image_gray, corner_coordinates, window_size=10)
