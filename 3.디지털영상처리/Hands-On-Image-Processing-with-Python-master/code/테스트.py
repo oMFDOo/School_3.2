@@ -1,105 +1,48 @@
-#Python Image Library
-from PIL import Image, ImageDraw, ImageFont
-import numpy as np
-# pylab을 통한 이미지 출력을 위해 사용
-import matplotlib.pylab as pylab
-# 이미지를 가져오는 다른 방법
+# 가우시안 필터 가져오기
+from skimage import filters
 from skimage.io import imread
-# rgb2grayㅡ를 사용하기 위함
 from skimage.color import rgb2gray
+from PIL import Image
+import scipy.fftpack as fp
+import matplotlib.pylab as pylab  # 이미지 그리기
+import numpy as np
 
+def zero_cross(image, T=0):
+    zimg = np.zeros(image.shape)
+    # 커널이 넘치지 않게 하려고 -1만큼 까지만 돌게됨
+    for i in range(0, image.shape[0]-1):
+        for j in range(0, image.shape[1]-1):
+            # if문 끝에 \는 라인 엔터치려고 넣은거임
+            
+            # 오른쪽
+            if image[i][j]*image[i+1][j] < 0 \
+            and np.abs( image[i+1][j] - image[i][j]) > T :
+                   zimg[i,j] = 1
+            # 우상단
+            elif image[i][j]*image[i+1][j+1] < 0 \
+            and np.abs( image[i+1][j+1] - image[i][j]) > T :
+                   zimg[i,j] = 1
+            # 위           
+            elif image[i][j]*image[i][j+1] < 0 \
+            and np.abs( image[i][j+1] - image[i][j]) > T :
+                   zimg[i,j] = 1
+    return zimg
 
-# shift + enter 를 이용해 단위별 실행 가능
+im = rgb2gray(imread("../images/goldengate.jpg"))
 
-#%% 그레이레벨로 변환하는 다양한 함수
+# LoG
+# 숫자조정해서 가우시안 값을 바꿀 수 있다.
+im_g = filters.gaussian(im, 8)
+im_l = filters.laplace(im_g)
+# T값도 내 맘대로 조정 가능하다
+edge = zero_cross(im_l, T=np.max(im_l)*0.001)
 
-# 이미지 불러올 때 변환
-im = Image.open("../images/parrot.png").convert('L')
-im.show()
+# DoG
+im_dog = filters.difference_of_gaussians(im, 5.0)
+edge2 = zero_cross(im_dog, T=np.max(im_dog)*0.001)
 
-# numpy 변환
-im2 = rgb2gray(imread("../images/parrot.png"))
-
-# 평균 이용하기
-im3 = imread("../images/parrot.png")
-# 2개의 축 기준으로 평균을 내어달라
-imarr = np.mean(im3, axis=2)
-
-
-pylab.figure(figsize=(15,5))
-pylab.subplot(1,2,1), pylab.imshow(im2, cmap="gray")
-pylab.subplot(1,2,2), pylab.imshow(imarr, cmap="gray")
-
-#%% 이미지를 가져오는 다른 방법
-
-# 이렇게 가져온 이미지는 NUMPY로 처리 가능하다.
-im = imread("../images/parrot.png")
-
-# 이미지 분할 [-1]의미는 나는 모르니까 니가 알아서 해줘
-[arr_r, arr_g, arr_b] = np.dsplit(im, im.shape[-1])
-
-# 출력
-pylab.figure(figsize=(15,5))
-pylab.subplot(1,2,1), pylab.imshow(arr_r, cmap="gray")
-
-
-#%% numpy를 이용해서 해보기
-
-# 이미지 불러오기
-im = Image.open("../images/parrot.png") 
-
-# 이미지 색상 분리
-im_r, im_g, im_b = im.split()
-
-arr_r = np.array(im_r)
-arr_g = np.array(im_g)
-arr_b = np.array(im_b)
-
-arr_r[:] = 0
-
-# 레이어 병합
-arr_rgb = np.dstack((arr_r, arr_g, arr_b))
-
-# 이미지로 변환
-Im2 = Image.fromarray(arr_rgb)
-Im2.show()
-
-# 출력
-pylab.figure(figsize=(15,5))
-pylab.subplot(1,2,1), pylab.imshow(arr_r, cmap="gray")
-pylab.subplot(1,2,2), pylab.imshow(arr_rgb)
-
-
-
-
-#%%
-
-# 이미지 불러오기
-im = Image.open("../images/parrot.png") 
-# 이미지 정보 출력
-print(im.width, im.height, im.mode)
-# 콘솔에 이미지 출력
-# im.show()
-
-# 이미지 색상 분리
-im_r, im_g, im_b = im.split()
-# RGBA 영상인 경우 EX_ 치타
-# im_r, im_g, im_b, _ = im.split()
-# red값 영으로 만들기
-im_r = im_r.point(lambda i : 0)
-
-# 색상 결합
-imout = Image.merge("RGB", (im_r, im_g, im_b))
-
-# 도형그리기
-draw = ImageDraw.Draw(imout, "RGBA")
-draw.ellipse( (125, 125, 200, 250), fill=(255, 255, 0, 128) )
-# font = ImageFont.truetype("arial.ttf", 23)
-# draw.text((10, 5), "Test", font=font)
-del draw
-
-pylab.figure(figsize=(15,5))
-pylab.subplot(1,2,1), pylab.imshow(imout)
-
-# 히스토그램 출력. ravel을 쓰면 데이터를 펼칠 수 있다.
-pylab.subplot(1,2,2), pylab.hist(np.array(im_r).ravel(), bins=20, range=(0,256), color='r')
+pylab.figure(figsize=(30, 20))
+pylab.subplot(2,2,1), pylab.imshow(im, cmap='gray')
+pylab.subplot(2,2,2), pylab.imshow(im_l, cmap='gray')
+pylab.subplot(2,2,3), pylab.imshow(edge, cmap='gray')
+pylab.subplot(2,2,4), pylab.imshow(edge2, cmap='gray')
