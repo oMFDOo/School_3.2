@@ -6,8 +6,8 @@
 //#define	PI	3.1415926
 //
 //// 경도, 위도를 나눌 점 n개 설정
-//#define N 36 
-//#define M 18 
+//#define N 6
+//#define M 4 
 //#define R 1
 //
 //struct Point3D {
@@ -52,20 +52,60 @@
 //			theta = j * delta_theta;
 //			phi = i * delta_phi - (PI / 2);
 //
+//
+//			double x, y, z;
+//			int isplus = 1;
+//			x = (vertices[j][i].x + vertices[(j + 1) % N][i + 1].x) / 2.0 + abs(i-M) * 0.1;
+//			y = (vertices[j][i].y + vertices[(j + 1) % N][i + 1].y) / 2.0 + abs(i - M) * 0.1;
+//			z = (vertices[j][i].z + vertices[(j + 1) % N][i + 1].z) / 2.0 + abs(i - M) * 0.1;
+//
 //			// 각 정점값을 설정하여 그리기
 //			glColor3f(1.0, 1.0, 0.0);
 //			glBegin(GL_POLYGON); // 면 그리기
-//		   // glBegin(GL_LINE_STRIP); // 라인 그리기
+//		    // glBegin(GL_LINE_STRIP); // 라인 그리기
 //
-//		   // 구의 표면 사각형 그리기
-//		   // 기준점
+//		    // 구의 표면 사각형 그리기
+//		    // 좌하단
 //			glVertex3f(vertices[j][i].x, vertices[j][i].y, vertices[j][i].z);
-//			// 기준점 우측
+//			// 우하단
 //			glVertex3f(vertices[(j + 1) % N][i].x, vertices[(j + 1) % N][i].y, vertices[(j + 1) % N][i].z);
-//			// 기준점 우상단
+//			// 하단 뿔
+//			glVertex3f(x, y, z);
+//
+//			glEnd();
+//
+//			glColor3f(0.0, 1.0, 0.0);
+//			glBegin(GL_POLYGON); // 면 그리기
+//			// 우하단
+//			glVertex3f(vertices[(j + 1) % N][i].x, vertices[(j + 1) % N][i].y, vertices[(j + 1) % N][i].z);
+//			// 우상단
 //			glVertex3f(vertices[(j + 1) % N][i + 1].x, vertices[(j + 1) % N][i + 1].y, vertices[(j + 1) % N][i + 1].z);
-//			// 기준점 상단
+//
+//			// 우측 뿔
+//			glVertex3f(x, y, z);
+//
+//			glEnd();
+//			glColor3f(0.0, 0.0, 1.0);
+//			glBegin(GL_POLYGON); // 면 그리기
+//			// 좌상단
 //			glVertex3f(vertices[j][i + 1].x, vertices[j][i + 1].y, vertices[j][i + 1].z);
+//			// 우상단
+//			glVertex3f(vertices[(j + 1) % N][i + 1].x, vertices[(j + 1) % N][i + 1].y, vertices[(j + 1) % N][i + 1].z);
+//
+//			// 상단 뿔
+//			glVertex3f(x, y, z);
+//
+//			glEnd();
+//
+//			glColor3f(1.0, 0.0, 0.0);
+//			glBegin(GL_POLYGON); // 면 그리기
+//			// 좌하단
+//			glVertex3f(vertices[j][i].x, vertices[j][i].y, vertices[j][i].z);
+//			// 좌상단
+//			glVertex3f(vertices[j][i + 1].x, vertices[j][i + 1].y, vertices[j][i + 1].z);
+//			
+//			// 좌측 뿔
+//			glVertex3f(x, y, z);
 //			glEnd();
 //		}
 //	}
@@ -92,6 +132,8 @@
 //	// 쉐이드 모델 설정 
 //	glShadeModel(GL_FLAT);		// 각 면이 확실히 구분되어 랜더링 됨
 //	// glShadeModel(GL_SMOOTH); // 부드럽게 랜더링 됨
+//	
+//	glEnable(GL_COLOR_MATERIAL);
 //
 //	// 깊이 테스트 실행 및 조명 활성화
 //	glEnable(GL_DEPTH_TEST);

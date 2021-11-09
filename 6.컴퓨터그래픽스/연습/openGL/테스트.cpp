@@ -1,256 +1,389 @@
-//#include <windows.h>
-//#include <iostream>
-//using namespace std;
-//#include <gl/glut.h>
+//#include <gl/glut.h>  
+//#include <math.h>
 //#include <stdio.h>
 //#include <stdlib.h>
-//#include <string.h>
+//#include <windows.h>
+//#include <string>
 //
-//#define width	800
-//#define height	800
+//#pragma warning (disable : 4996)
 //
-//float	object_radius = 30.0f;
 //
-//float	angle = 0.0f;
-//float	camera_radius = 100.0f;
-//int		object_type = 1;
+//#define		PI	3.1415926
+//#define		N	36
+//#define		M	18 
 //
-//float	lightPositionR[] = { 0.0f, 0.0f, 75.0f, 1.0f };
-//float	lightPositionG[] = { 0.0f, 0.0f, 75.0f, 1.0f };
-//float	lightPositionB[] = { 0.0f, 0.0f, 75.0f, 1.0f };
+//static int	sphere_drawing_type = 0;
+//static int	material_able = 0;
+//static int	switching_shade = 0;
 //
-//float	diffuseLightR[] = { 1.0f, 0.0f, 0.0f, 1.0f };
-//float	diffuseLightG[] = { 0.0f, 1.0f, 0.0f, 1.0f };
-//float	diffuseLightB[] = { 0.0f, 0.0f, 1.0f, 1.0f };
+//float	sphere_radius = 1.0;
+//float	camera_radius = 5.0;
+//float	camera_theta = 0.0;
+//float	camera_phi = 0.0;
 //
-//float	specularLightR[] = { 1.0f, 0.0f, 0.0f, 1.0f };
-//float	specularLightG[] = { 0.0f, 1.0f, 0.0f, 1.0f };
-//float	specularLightB[] = { 0.0f, 0.0f, 1.0f, 1.0f };
-//
-//float	spotRirection[] = { 0.0f, 0.0f, -1.0f };
-//
-//float	diffuseLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
-//float	specularLight[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-//float	lightPosition[] = { 0.0f, 0.0f, 100.0f, 1.0f };
-//
-//float	objectXRot;
-//float	objectYRot;
-//float	objectZRot;
-//
-//float	redXRot;
-//float	redYRot;
-//
-//int		currentColor = 1;
-//bool	spotEnabled = true;
-//
-//int		v_no, f_no;
-//
-//float	groundZposition = -80.0f;
-//float	objectDistance;
-//float	objectZposition = 70.0;
-//float	objectZvelocity = -0.05;
+//float	ver[N][M + 1][3];
 //
 //
 //
-//void	Initialize(void)
-//{
-//	glShadeModel(GL_SMOOTH);
-//	glEnable(GL_DEPTH_TEST);
-//	glEnable(GL_CULL_FACE);
-//	glFrontFace(GL_CCW);
+//void Vertex_Generation(void) {
+//	float	theta, phi;
+//	float	delta_theta, delta_phi;
+//	float	start_theta, start_phi;
 //
-//	glEnable(GL_LIGHTING);
+//	start_theta = 0.0;
+//	delta_theta = 2.0 * PI / N;
 //
-//	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
-//	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
-//	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-//	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 40.0f);
-//	glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 80.0f);
+//	start_phi = -1.0 * PI / 2.0;
+//	delta_phi = PI / M;
 //
-//	glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuseLightR);
-//	glLightfv(GL_LIGHT1, GL_SPECULAR, specularLightR);
-//	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR);
-//
-//	glEnable(GL_LIGHT0);
-//	glEnable(GL_LIGHT1);
-//
-//	glEnable(GL_COLOR_MATERIAL);
-//	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-//
-//	glMaterialfv(GL_FRONT, GL_SPECULAR, specularLight);
-//	glMateriali(GL_FRONT, GL_SHININESS, 128);
-//
-//	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+//	for (int j = 0; j <= M; j++) {
+//		for (int i = 0; i < N; i++) {
+//			theta = start_theta + i * delta_theta;
+//			phi = start_phi + j * delta_phi;
+//			ver[i][j][0] = sphere_radius * cos(phi) * cos(theta);
+//			ver[i][j][1] = sphere_radius * cos(phi) * sin(theta);
+//			ver[i][j][2] = sphere_radius * sin(phi);
+//		}
+//	}
 //}
 //
-//
-//void Draw_Axis(void) {
-//
-//	glLineWidth(3.0);
+//void axis(void) {
 //	glBegin(GL_LINES);
-//	glColor3f(1.0, 0.0, 0.0); // red color
+//	glColor3f(1.0, 0.0, 0.0); // x축 
 //	glVertex3f(0.0, 0.0, 0.0);
-//	glVertex3f(100.0, 0.0, 0.0);
+//	glVertex3f(10.0, 0.0, 0.0);
 //
-//	glColor3f(0.0, 1.0, 0.0); // green color
+//	glColor3f(0.0, 1.0, 0.0); // y축 
 //	glVertex3f(0.0, 0.0, 0.0);
-//	glVertex3f(0.0, 100.0, 0.0);
+//	glVertex3f(0.0, 10.0, 0.0);
 //
-//	glColor3f(0.0, 0.0, 1.0); // blue color
+//	glColor3f(0.0, 0.0, 1.0); // z축 
 //	glVertex3f(0.0, 0.0, 0.0);
-//	glVertex3f(0.0, 0.0, 100.0);
+//	glVertex3f(0.0, 0.0, 10.0);
 //	glEnd();
 //}
 //
 //
-//void camera_setting(void) {
-//	glMatrixMode(GL_PROJECTION);
-//	glLoadIdentity();
-//	gluPerspective(54.0f, 1.0f, 1.0f, 1000.0f);
-//	glMatrixMode(GL_MODELVIEW);
-//	glLoadIdentity();
-//	gluLookAt(camera_radius, camera_radius, 0.5 * camera_radius, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+//// 선과 면의 구분을 위해 선에는 벡터 값 미설정
+//void Draw_Wire_Sphere(void) {
+//	glColor3f(0.5, 0.2, 1.0);
+//	for (int j = 0; j < M; j++) {
+//		for (int i = 0; i < N; i++) {
+//			glBegin(GL_LINE_LOOP);
+//
+//			glVertex3f(1.01 * ver[i][j][0], 1.01 * ver[i][j][1], 1.01 * ver[i][j][2]);
+//
+//			glVertex3f(1.01 * ver[i + 1][j][0], 1.01 * ver[i + 1][j][1], 1.01 * ver[i + 1][j][2]);
+//
+//			glVertex3f(1.01 * ver[i + 1][j + 1][0], 1.01 * ver[i + 1][j + 1][1], 1.01 * ver[i + 1][j + 1][2]);
+//			
+//			glVertex3f(1.01 * ver[i][j + 1][0], 1.01 * ver[i][j + 1][1], 1.01 * ver[i][j + 1][2]);
+//			glEnd();
+//		}
+//	}
 //}
 //
-//void	display(void)
+//// 선과 면의 구분을 위해 선에는 벡터 값 미설정
+//void Draw_Wire_Sphere1(void) {
+//	glColor3f(0.5, 0.2, 1.0);
+//	for (int j = 0; j < M; j++) {
+//		for (int i = 0; i < N; i++) {
+//			glBegin(GL_LINE_LOOP);
+//
+//			glVertex3f(1.01 * ver[i][j][0], 1.01 * ver[i][j][1], 1.01 * ver[i][j][2]);
+//			
+//			glVertex3f(1.01 * ver[(i + 1) % N][j][0], 1.01 * ver[(i + 1) % N][j][1], 1.01 * ver[(i + 1) % N][j][2]);
+//
+//			glVertex3f(1.01 * ver[(i + 1) % N][j + 1][0], 1.01 * ver[(i + 1) % N][j + 1][1], 1.01 * ver[(i + 1) % N][j + 1][2]);
+//			
+//			glVertex3f(1.01 * ver[i][j + 1][0], 1.01 * ver[i][j + 1][1], 1.01 * ver[i][j + 1][2]);
+//			glEnd();
+//		}
+//	}
+//}
+//
+//
+//void Sphere(void) {
+//	for (int j = 0; j < M; j++) {
+//		for (int i = 0; i < N; i++) {
+//			glColor3f(1.0, 0.3, 0.3);
+//			glBegin(GL_POLYGON);
+//
+//			glNormal3fv(ver[i][j]);
+//			glVertex3fv(ver[i][j]);
+//
+//			glNormal3fv(ver[i + 1][j]);
+//			glVertex3fv(ver[i + 1][j]);
+//
+//			glNormal3fv(ver[i + 1][j + 1]);
+//			glVertex3fv(ver[i + 1][j + 1]);
+//
+//			glNormal3fv(ver[i][j + 1]);
+//			glVertex3fv(ver[i][j + 1]);
+//			glEnd();
+//		}
+//	}
+//}
+//
+//void Sphere1(void) {
+//	for (int j = 0; j < M; j++) {
+//		for (int i = 0; i < N; i++) {
+//			glColor3f(0.3, 1.0, 0.3);
+//			glBegin(GL_POLYGON);
+//
+//			glNormal3fv(ver[i][j]);
+//			glVertex3fv(ver[i][j]);
+//
+//			glNormal3fv(ver[i + 1][j]);
+//			glVertex3fv(ver[i + 1][j]);
+//
+//			glNormal3fv(ver[i + 1][j + 1]);
+//			glVertex3fv(ver[i + 1][j + 1]);
+//
+//			glNormal3fv(ver[i][j + 1]);
+//			glVertex3fv(ver[i][j + 1]);
+//
+//			glEnd();
+//		}
+//	}
+//	Draw_Wire_Sphere();
+//}
+//
+//void Sphere2(void) {
+//	for (int j = 0; j < M; j++) {
+//		for (int i = 0; i < N; i++) {
+//			glColor3f(0.3, 0.3, 1.0);
+//			glBegin(GL_POLYGON);
+//
+//			glNormal3fv(ver[i][j]);
+//			glVertex3fv(ver[i][j]);
+//
+//			glNormal3fv(ver[(i + 1) % N][j]);
+//			glVertex3fv(ver[(i + 1) % N][j]);
+//
+//			glNormal3fv(ver[(i + 1) % N][j + 1]);
+//			glVertex3fv(ver[(i + 1) % N][j + 1]);
+//
+//			glNormal3fv(ver[i][j + 1]);
+//			glVertex3fv(ver[i][j + 1]);
+//			glEnd();
+//		}
+//	}
+//	Draw_Wire_Sphere1();
+//}
+//
+//void Sphere3(void) {
+//	for (int j = 0; j < M; j++) {
+//		for (int i = 0; i < N; i++) {
+//			glColor3f(cos(exp(i + j) * sin(i + j)), sin(j * sin(i * j)), sin(i * j));
+//			glBegin(GL_POLYGON);
+//
+//			glNormal3fv(ver[i][j]);
+//			glVertex3fv(ver[i][j]);
+//
+//			glNormal3fv(ver[(i + 1) % N][j]);
+//			glVertex3fv(ver[(i + 1) % N][j]);
+//
+//			glNormal3fv(ver[(i + 1) % N][j + 1]);
+//			glVertex3fv(ver[(i + 1) % N][j + 1]);
+//
+//			glNormal3fv(ver[i][j + 1]);
+//			glVertex3fv(ver[i][j + 1]);
+//			glEnd();
+//		}
+//	}
+//}
+//
+//
+//float   light0_position[] = { 2.8, 1.0, -1.5, 1.0 };
+//float   light0_ambient[] = { 2.0, 1.0, 1.5, 1.0 };	// 주변광
+//float   light0_diffuse[] = { 2.0, 1.0, 1.5, 1.0 };	// 분산광
+//float   light0_specular[] = { 2.0, 1.0, 1.5, 1.0 };	// 반사광
+//
+//
+//void init(void)
 //{
-//	glClearColor(0.0, 0.0, 0.0, 1.0);
-//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//	glEnable(GL_DEPTH_TEST);
+//	Vertex_Generation();
 //
-//	camera_setting();
 //
-//	glDisable(GL_LIGHTING);
-//	Draw_Axis();
+//	// 쉐이드 모델 설정 
+//	//glShadeModel(GL_FLAT); // 각 면이 확실히 구분되어 랜더링 됨
+//	glShadeModel(GL_SMOOTH); // 부드럽게 랜더링 됨
+//
+//	// 조명 활성화
 //	glEnable(GL_LIGHTING);
+//	glEnable(GL_LIGHT0);
 //
+//	// 커스텀 조명값 적용
+//	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+//	glLightfv(GL_LIGHT0, GL_AMBIENT, light0_ambient);	// 주변광
+//	glLightfv(GL_LIGHT0, GL_DIFFUSE, light0_diffuse);	// 분산광
+//	glLightfv(GL_LIGHT0, GL_SPECULAR, light0_specular);	// 반사광
 //
-//	glPushMatrix();
-//	/*glRotatef(redYRot, 0.0f, 1.0f, 0.0f);
-//	glRotatef(redXRot, 1.0f, 0.0f, 0.0f);*/
-//
-//	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR);
-//
-//	switch (currentColor) {
-//	case 1:
-//		glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuseLightR);
-//		glLightfv(GL_LIGHT1, GL_EMISSION, diffuseLightR);
-//		glLightfv(GL_LIGHT1, GL_SPECULAR, specularLightR);
-//		glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR);
-//		glTranslatef(lightPositionR[0], lightPositionR[1], lightPositionR[2]);
-//		glColor3f(1.0f, 0.0f, 0.0f);
-//		break;
-//	case 2:
-//		glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuseLightG);
-//		glLightfv(GL_LIGHT1, GL_EMISSION, diffuseLightG);
-//		glLightfv(GL_LIGHT1, GL_SPECULAR, specularLightG);
-//		glLightfv(GL_LIGHT1, GL_POSITION, lightPositionG);
-//		glTranslatef(lightPositionG[0], lightPositionG[1], lightPositionG[2]);
-//		glColor3f(0.0f, 1.0f, 0.0f);
-//		break;
-//
-//	case 3:
-//		glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuseLightB);
-//		glLightfv(GL_LIGHT1, GL_EMISSION, diffuseLightB);
-//		glLightfv(GL_LIGHT1, GL_SPECULAR, specularLightB);
-//		glLightfv(GL_LIGHT1, GL_POSITION, lightPositionB);
-//		glTranslatef(lightPositionB[0], lightPositionB[1], lightPositionB[2]);
-//		glColor3f(0.0f, 0.0f, 1.0f);
-//		break;
-//	}
-//
-//
-//
-//	glPushAttrib(GL_LIGHTING_BIT);
-//	glDisable(GL_LIGHTING);
-//	glutSolidSphere(2.5f, 100, 100);
-//
-//	
-//	glEnable(GL_LIGHTING);
-//	glPopAttrib();
-//	glPopMatrix();
-//
-//	glPushMatrix();
-//	glTranslatef(0.0f, 0.0f, groundZposition);
-//	glScalef(1.0f, 1.0f, 0.01f);
-//	glutSolidCube(400.0f);
-//	glPopMatrix();
-//
-//
-//	glPushMatrix();
-//	//glRotatef(objectXRot, 1.0f, 0.0f, 0.0f);
-//	//glRotatef(objectYRot, 0.0f, 1.0f, 0.0f);
-//	//glRotatef(objectZRot, 0.0f, 0.0f, 1.0f);
-//
-//	switch (object_type) {
-//	case 1:	glutSolidCube(30.0f);				break;
-//	case 2:	glutSolidSphere(30.0f, 100, 100);	break;
-//	case 3:glutSolidTorus(10.f, 30.f, 100, 100); break;
-//	default: break;
-//	}
-//	glPopMatrix();
-//
-//
-//	glFlush();
-//	glutSwapBuffers();
-//
-//	objectDistance = (objectZposition - object_radius) - groundZposition;
-//	if ((objectZvelocity < 0 && objectDistance < 0) ||
-//		(objectZvelocity > 0 && objectDistance > 150))
-//		objectZvelocity *= -1.0;
-//
-//	objectZposition += objectZvelocity;
-//
-//	objectXRot += 0.002f;
-//	objectYRot += 0.004f;
-//	objectZRot += 0.002f;
-//
-//	redXRot += 0.03f;
-//	redYRot += 0.01f;
+//	glMaterialfv(GL_FRONT, GL_SPECULAR, light0_specular);
+//	// 반사광에 대해 반짝거리는 정도를 지정한다. 0 ~128 사이의 범위를 지정할 수 있으며 디폴트는 0이다.
+//	// 면적 지정의 개념인데, 1~2 정도는 넓은 면적, 127~128은 좁은 면적을 뜻한다.
+//	glMateriali(GL_FRONT, GL_SHININESS, 50);
 //}
 //
+//void swichingShade() {
+//	if (switching_shade % 2) {
+//		glShadeModel(GL_FLAT);
+//	}
+//	else {
+//		glShadeModel(GL_SMOOTH);;
+//	}
+//}
 //
-//void  reshape(int w, int h) {
+//void swichingMaterial() {
+//	glLightfv(GL_LIGHT0, GL_AMBIENT, light0_ambient);	// 주변광
+//	glLightfv(GL_LIGHT0, GL_DIFFUSE, light0_diffuse);	// 분산광
+//	glLightfv(GL_LIGHT0, GL_SPECULAR, light0_specular);	// 반사광
+//
+//	glMaterialfv(GL_FRONT, GL_SPECULAR, light0_specular);
+//	// 반사광에 대해 반짝거리는 정도를 지정한다. 0 ~128 사이의 범위를 지정할 수 있으며 디폴트는 0이다.
+//	// 면적 지정의 개념인데, 1~2 정도는 넓은 면적, 127~128은 좁은 면적을 뜻한다.
+//	glMateriali(GL_FRONT, GL_SHININESS, 50);
+//
+//	if (material_able % 2) {
+//		glEnable(GL_COLOR_MATERIAL);
+//	}
+//	else {
+//		glDisable(GL_COLOR_MATERIAL);
+//	}
+//}
+//
+//void reshape(int w, int h)
+//{
 //	glViewport(0, 0, w, h);
 //	glMatrixMode(GL_PROJECTION);
 //	glLoadIdentity();
-//	gluPerspective(54.0f, (GLfloat)w / (GLfloat)h, 1.0f, 1000.0f);
+//	gluPerspective(45.0, 1.0, 1.0, 1000);
 //}
 //
 //
-//void my_keyboeard(unsigned char key, int x, int y) {
-//	switch (key) {
-//	case '1':	object_type = 1;	break;
-//	case '2':	object_type = 2;	break;
-//	case '3':	object_type = 3;	break;
+//void camera_setting(void)
+//{
+//	float	x, y, z;
 //
-//	case 'r':	currentColor = 1;	break;
-//	case 'g':	currentColor = 2;	break;
-//	case 'b':	currentColor = 3;	break;
-//	case 's':
-//		if (spotEnabled) {
-//			spotEnabled = false;
-//			glDisable(GL_LIGHT0);
-//		}
-//		else {
-//			spotEnabled = true;
-//			glEnable(GL_LIGHT0);
-//		}
-//		break;
+//	x = camera_radius * cos(camera_theta) * cos(camera_phi);
+//	y = camera_radius * sin(camera_theta) * cos(camera_phi);
+//	z = camera_radius * sin(camera_phi);
+//
+//	glMatrixMode(GL_MODELVIEW);
+//	glLoadIdentity();
+//	gluLookAt(x, y, z, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+//}
+//void printText(float x, float y, float z, std::string output) {
+//	void* font = GLUT_BITMAP_9_BY_15;
+//
+//	glRasterPos3f(x, y, z);
+//	for (auto& i : output) {
+//		char c = i;
+//		glColor3f(1.0, 0.0, 1.0);
+//		glutBitmapCharacter(font, c);
+//	}
+//}
+//
+//// 글자 출력하기
+//void drawText() {
+//	std::string output;
+//
+//	output = "< PRESS KEYWORD >";
+//	printText(1.0, -0.5, 1.4, output);
+//
+//
+//	std::string m = "Disable COLOR_MATERIAL", s = "GL_SMOOTH";
+//	
+//	if (switching_shade% 2) { s = "GL_FLAT"; }
+//	if (material_able % 2) { m = "Enable COLOR_MATERIAL"; }
+//
+//	output = "s: " + s;
+//	printText(1.0, -1.0, 1.2, output);
+//
+//	output = "m: " + m;
+//	printText(1.0, -1.0, 1.1, output);
+//
+//	output = "0, 1, 2, 3 : Sphere Model";
+//	printText(1.0, -1.0, 1.0, output);
+//
+//}
+//
+//void display(void)
+//{
+//
+//	glClearColor(0.0, 0.0, 0.0, 0.0);
+//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//	swichingShade();	// 쉐이드 모델 변경
+//	swichingMaterial();	// 재질 표현 법 변경
+//
+//	camera_setting();
+//	axis();
+//
+//	drawText();
+//
+//
+//	switch (sphere_drawing_type) {
+//	case 0: Sphere(); break;
+//	case 1: Sphere1(); break;
+//	case 2: Sphere2(); break;
+//	case 3: Sphere3();break;
+//	default:break;
+//	}
+//
+//	glMatrixMode(GL_PROJECTION);
+//	glFlush();
+//	glutSwapBuffers();
+//}
+//
+//
+//void special_key(int key, int x, int y)
+//{
+//	switch (key) {
+//	case GLUT_KEY_LEFT:		camera_theta -= 0.01; 	break;
+//	case GLUT_KEY_RIGHT:	camera_theta += 0.01;	break;
+//	case GLUT_KEY_UP:		camera_phi += 0.01;		break;
+//	case GLUT_KEY_DOWN:		camera_phi -= 0.01;		break;
 //	default: break;
 //	}
 //	glutPostRedisplay();
 //}
 //
-//int main(int argc, char** argv) {
+//void mykey(unsigned char key, int x, int y)
+//{
+//	switch (key) {
+//	case '[':	camera_radius += 0.1;		break;	// 축소
+//	case ']':	camera_radius -= 0.1;		break;	// 확대
+//	case 's':   switching_shade += 1;		break;	// 쉐이드 모델 설정
+//	case 'm':   material_able += 1;			break;	// 재질 모델 설정
+//	case '0':   sphere_drawing_type = 0;	break;	// 그려질 구 타입 : 잘려진 구  /          /  R
+//	case '1':   sphere_drawing_type = 1;	break;	// 그려질 구 타입 : 잘려진 구  /  와이어  /  G
+//	case '2':   sphere_drawing_type = 2;	break;	// 그려질 구 타입 : 완전한 구  /  와이어  /  B
+//	case '3':   sphere_drawing_type = 3;	break;	// 그려질 구 타입 : 완전한 구  /          /  위치 색상
+//	default: break;
+//	}
+//	glutPostRedisplay();
+//}
+//
+//
+//void main(int argc, char** argv) {
 //	glutInit(&argc, argv);
-//	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH);
+//	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 //	glutInitWindowPosition(100, 100);
-//	glutInitWindowSize(width, height);
-//	glutCreateWindow("Cube_Sphere_Torus under a moving light source");
-//	Initialize();
+//	glutInitWindowSize(500, 500);
+//
+//	glMatrixMode(GL_MODELVIEW);
+//	glViewport(0, 0, 500, 500);
+//	glLoadIdentity();
+//	gluOrtho2D(0, 500, 0, 500);
+//
+//
+//	glutCreateWindow("20193148_황진주");
+//	init();
 //	glutDisplayFunc(display);
-//	glutKeyboardFunc(my_keyboeard);
 //	glutReshapeFunc(reshape);
-//	glutIdleFunc(display);
+//	glutKeyboardFunc(mykey);
+//	glutSpecialFunc(special_key);
 //	glutMainLoop();
 //}
