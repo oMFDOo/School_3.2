@@ -12,12 +12,12 @@ def plot_image(img, title, cmap='gray'):
     plt.title(title, size=20)
     plt.axis('off')    
 
-#%% 군집    
+#%% quickshift    
 # 숫자가 커질수록 해상도가 줄어든다[::4, ::4, :3]
-img = imread('../images/10.jpg')[::2, ::2, :3]
+img = imread('../images/4.jpg')[::2, ::2, :3]
 # 커널 사이즈 max_dist:최대 거리 100 정보의 ratio:색상과 거리의 조절
 # ratio값이 커지면 조금 더 색상 기준으로 나눈다.
-segments_quick = quickshift(img, kernel_size=3, max_dist=300, ratio=0.5)
+segments_quick = quickshift(img, kernel_size=7, max_dist=500, ratio=0.5)
 segments_mark = mark_boundaries(img, segments_quick)
 
 plt.figure(figsize=(20,20))
@@ -29,15 +29,15 @@ plt.show()
 # pip install SimpleITK
 import SimpleITK as sitk
 
-img = 255*rgb2gray(imread('../images/10.jpg'))
+img = 255*rgb2gray(imread('../images/4.jpg'))
 img_T1 = sitk.GetImageFromArray(img) 
 img_T1_255 = sitk.Cast(sitk.RescaleIntensity(img_T1), sitk.sitkUInt8)
 
 # 기반 위치 설정
-seed = (100,120)
+seed = (509,177)
 # 확률적으로 임계값 설정
 # lower/upper : 영역확장의 최소/최대 크
-seg = sitk.ConnectedThreshold(img_T1, seedList=[seed], lower=40, upper=80)
+seg = sitk.ConnectedThreshold(img_T1, seedList=[seed], lower=10, upper=120)
 # 원본과 겹친 이미지
 overlay = sitk.LabelOverlay(img_T1_255, seg)
 
@@ -48,12 +48,12 @@ plt.show()
 #%% watershed
 from skimage.filters import sobel
 
-img = imread('../images/10.jpg')[::2, ::2, :3]
+img = imread('../images/4.jpg')[::2, ::2, :3]
 # 에지 탐색
 gradient = sobel(rgb2gray(img))
 # markers : 댐의 높이/크기
 # compactness : 높은 값일 수록 일반적인 다각형
-segments_watershed = watershed(gradient, markers=100, compactness=0.001)
+segments_watershed = watershed(gradient, markers=200, compactness=0.0001)
 segments_mark = mark_boundaries(img, segments_watershed)
 
 plt.figure(figsize=(20,20))
@@ -63,9 +63,9 @@ plt.show()
 #%% graph-based : Felzenszwalb
 from matplotlib.colors import LinearSegmentedColormap
 
-org = imread('../images/10.jpg')[::2, ::2, :3]
+org = imread('../images/4.jpg')[::2, ::2, :3]
 img = img_as_float(org)
-segments_fz = felzenszwalb(img, scale=100, sigma=0.5, min_size=100)
+segments_fz = felzenszwalb(img, scale=150, sigma=0.7, min_size=400)
 segments_mark = mark_boundaries(img, segments_fz)
 
 # 색상 면 만드는 법
@@ -87,15 +87,12 @@ plt.show()
 
 #%% SLIC
 
-img = imread('../images/10.jpg')[::2, ::2, :3]
+img = imread('../images/4.jpg')[::2, ::2, :3]
 
-plt.figure(figsize=(12,12))
-i = 1
-for compactness in [0.1, 1, 10, 100]:
-    plt.subplot(2,2,i)
-    segments_slic = slic(img, n_segments=250, compactness=compactness, sigma=1)
-    plot_image(mark_boundaries(img, segments_slic), 'compactness=' + str(compactness))
-    i += 1
+plt.figure(figsize=(20,20))
+plt.subplot(1,1,1)
+segments_slic = slic(img, n_segments=100, compactness=10, sigma=0.1)
+plot_image(mark_boundaries(img, segments_slic), 'compactness=' + str(10))
 plt.suptitle('SLIC', size=30)
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 plt.show()
