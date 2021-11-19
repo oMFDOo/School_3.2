@@ -46,4 +46,19 @@ def show_digit(x, label):
     plt.title('Label ' + str(label))
     #plt.show()
     #return
+    
+# 확률 분포를 이용한 탐색
+def fit_generative_model(x,y):
+    k = 10  # labels 0,1,...,k-1
+    d = (x.shape)[1]  # number of features
+    mu = np.zeros((k,d))
+    sigma = np.zeros((k,d,d))
+    pi = np.zeros(k)
+    c = 3500 #10000 #1000 #100 #10 #0.1 #1e9
+    for label in range(k):
+        indices = (y == label)
+        pi[label] = sum(indices) / float(len(y))
+        mu[label] = np.mean(x[indices,:], axis=0)
+        sigma[label] = np.cov(x[indices,:], rowvar=0, bias=1) + c*np.eye(d)
+    return mu, sigma, pi
 

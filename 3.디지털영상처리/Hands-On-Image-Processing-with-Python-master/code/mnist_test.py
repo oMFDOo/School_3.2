@@ -68,7 +68,35 @@ t_after = time.time()
 t_testing = t_after - t_before
 print("Time to classify test set (seconds): ", t_testing)
 
+
 # 0.96909999999999996
+import pandas as pd
+import seaborn as sn
+from sklearn import metrics
+cm = metrics.confusion_matrix(test_labels,test_predictions)
+# 인식 범위
+df_cm = pd.DataFrame(cm, range(10), range(10))
+sn.set(font_scale=1.2)# for label size
+sn.heatmap(df_cm, annot=True,annot_kws={"size": 16}, fmt="g")
+
+#%% bAYES CLASSIFIER
+mu, sigma, pi = fit_generative_model(train_data, train_labels)
+
+# Compute log Pr(label|image) for each [test image,label] pair.
+k = 10
+score = np.zeros((len(test_labels),k))
+for label in range(0,k):
+    # mu : 평균
+    # sigma : 분산
+    rv = multivariate_normal(mean=mu[label], cov=sigma[label])
+    for i in range(0,len(test_labels)):
+       score[i,label] = np.log(pi[label]) + rv.logpdf(test_data[i,:])
+    test_predictions = np.argmax(score, axis=1)
+# Finally, tally up score
+errors = np.sum(test_predictions != test_labels)
+print("The generative model makes " + str(errors) + " errors out of 10000")
+t_accuracy = sum(test_predictions == test_labels) / float(len(test_labels))
+
 import pandas as pd
 import seaborn as sn
 from sklearn import metrics

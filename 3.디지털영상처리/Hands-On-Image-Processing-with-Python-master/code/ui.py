@@ -53,20 +53,35 @@ btn1 = tkinter.Button(window, text='Clear', width=15, command=cclear)
 btn1.place(x=10, y=350)
 
 def learn():
+    # 1. KNN
     t_before = time.time()
+    # ball_tree는 탐색에 최적화를 위해 사용
     global ball_tree
-    ball_tree = BallTree(train_data)
+    # meteric : 거리 계산법
+    # 해밍(hamming) : 거리계산을 위해 0과 1의 차이의 개수를 보는것
+    # 유클리디안(euclidean) 
+    ball_tree = BallTree(train_data,metric="hamming")
+    
+    # 저기 들어갈 수 있는 옵션 뭐 있는지 출력해달
+    print(BallTree.valid_metrics)
+    
     t_after = time.time()
     
     t_training = t_after - t_before
     # 텍스트 박스에 시간 출력
     tbox.insert('end', 'Learn: ' + str(t_training) + '\n')
+    
+    # 2. bAYES CLASSIFIER
+    global mu, sigma, pi
+    # mu, sigma, pi = fit_generative_model(train_data, train_labels)
+    # tbox.insert('end', "compute Done\n")
 
 # 버튼 생성 : 학습하기
 btn2 = tkinter.Button(window, text='Learn', width=15, command=learn)
 btn2.place(x=10, y=400)
 
 def cfind():
+    # 1. KNN
   # 버퍼 내용을 그려줘
   # 코드 디렉토리에 버퍼내용 이미지가 생
   # cv2.imwrite("outbuf.jpg", buffer)
@@ -77,6 +92,15 @@ def cfind():
   input_data = np.reshape(input_data.flatten(), (1, 28*28))
   result = ball_tree.query(input_data, k=1, return_distance=False)
   tbox.insert('end', str(train_labels[result]) + '\n')
+  
+  # # 2. bAYES CLASSIFIER
+  # score = np.zeros((10)
+  # for label in range(0,10):
+  #     # mu : 평균
+  #     # sigma : 분산
+  #     rv = multivariate_normal(mean=mu[label], cov=sigma[label])
+  #     score[i,label] = np.log(pi[label]) + rv.logpdf(input_data)
+  #     result = np.argmax(score, axis=1)
 
 # 버튼 생성 : 탐색하기
 btn3 = tkinter.Button(window, text='Find', width=15, command=cfind)
