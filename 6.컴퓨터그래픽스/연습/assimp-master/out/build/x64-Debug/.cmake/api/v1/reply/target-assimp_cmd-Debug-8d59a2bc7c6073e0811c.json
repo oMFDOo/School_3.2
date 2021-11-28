@@ -1,0 +1,476 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "bin/assimpd.exe"
+		},
+		{
+			"path" : "bin/assimpd.pdb"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"_add_executable",
+			"ADD_EXECUTABLE",
+			"INSTALL",
+			"LINK_DIRECTORIES",
+			"TARGET_LINK_LIBRARIES",
+			"ADD_COMPILE_OPTIONS",
+			"ADD_DEFINITIONS",
+			"INCLUDE_DIRECTORIES"
+		],
+		"files" : 
+		[
+			"C:/Users/user/Downloads/Telegram Desktop/gomoku-ai-rne/Gomoku/ThirdParty/vcpkg/scripts/buildsystems/vcpkg.cmake",
+			"tools/assimp_cmd/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 50,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 538,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 71,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 48,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 66,
+				"parent" : 0
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 267,
+				"parent" : 6
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 273,
+				"parent" : 6
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 579,
+				"parent" : 6
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 45,
+				"parent" : 6
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 44,
+				"parent" : 6
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 151,
+				"parent" : 6
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 139,
+				"parent" : 6
+			},
+			{
+				"command" : 7,
+				"file" : 2,
+				"line" : 227,
+				"parent" : 6
+			},
+			{
+				"command" : 7,
+				"file" : 2,
+				"line" : 495,
+				"parent" : 6
+			},
+			{
+				"command" : 7,
+				"file" : 1,
+				"line" : 42,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-DWIN32 -D_DEBUG  "
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 9,
+					"define" : "ASSIMP_BUILD_NO_C4D_IMPORTER"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "ASSIMP_BUILD_NO_M3D_EXPORTER"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "ASSIMP_BUILD_NO_M3D_IMPORTER"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "UNICODE"
+				},
+				{
+					"backtrace" : 13,
+					"define" : "WIN32_LEAN_AND_MEAN"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "_UNICODE"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 14,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/build/x64-Debug/include"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/build/x64-Debug"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/include"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/code"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/."
+				},
+				{
+					"backtrace" : 15,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/contrib/zlib"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/build/x64-Debug/contrib/zlib"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/build/x64-Debug/tools/assimp_cmd"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/code/../include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/build/x64-Debug/code/../include"
+				}
+			],
+			"language" : "RC",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 /D_DEBUG /Zi /Od  "
+				},
+				{
+					"backtrace" : 7,
+					"fragment" : "/MP"
+				},
+				{
+					"backtrace" : 7,
+					"fragment" : "/bigobj"
+				},
+				{
+					"backtrace" : 7,
+					"fragment" : "/W4"
+				},
+				{
+					"backtrace" : 7,
+					"fragment" : "/WX"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "/wd4244"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 9,
+					"define" : "ASSIMP_BUILD_NO_C4D_IMPORTER"
+				},
+				{
+					"backtrace" : 10,
+					"define" : "ASSIMP_BUILD_NO_M3D_EXPORTER"
+				},
+				{
+					"backtrace" : 11,
+					"define" : "ASSIMP_BUILD_NO_M3D_IMPORTER"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "UNICODE"
+				},
+				{
+					"backtrace" : 13,
+					"define" : "WIN32_LEAN_AND_MEAN"
+				},
+				{
+					"backtrace" : 12,
+					"define" : "_UNICODE"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 14,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/build/x64-Debug/include"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/build/x64-Debug"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/include"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/code"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/."
+				},
+				{
+					"backtrace" : 15,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/contrib/zlib"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/build/x64-Debug/contrib/zlib"
+				},
+				{
+					"backtrace" : 16,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/build/x64-Debug/tools/assimp_cmd"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/code/../include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/build/x64-Debug/code/../include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				6,
+				7,
+				8
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "zlibstatic::@de27f3809863e2bb7c79"
+		},
+		{
+			"backtrace" : 5,
+			"id" : "assimp::@1c76e98fcac0e60aa45c"
+		}
+	],
+	"id" : "assimp_cmd::@18392c05a593bb443984",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "bin"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/install/x64-Debug"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 /D_DEBUG /Zi /Od",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:x64 /debug /INCREMENTAL /subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "-LIBPATH:\"D:\\★과제물★\\3학년 2학기\\School_3.2\\6.컴퓨터그래픽스\\연습\\assimp-master\\out\\build\\x64-Debug\"",
+				"role" : "libraryPath"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "-LIBPATH:\"D:\\★과제물★\\3학년 2학기\\School_3.2\\6.컴퓨터그래픽스\\연습\\assimp-master\\out\\build\\x64-Debug\\lib\"",
+				"role" : "libraryPath"
+			},
+			{
+				"fragment" : "..\\..\\lib\\assimp-vc142-mtd.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "..\\..\\contrib\\zlib\\zlibstaticd.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "assimp_cmd",
+	"nameOnDisk" : "assimpd.exe",
+	"paths" : 
+	{
+		"build" : "tools/assimp_cmd",
+		"source" : "tools/assimp_cmd"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				6,
+				7,
+				8
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				4,
+				5
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "tools/assimp_cmd/assimp_cmd.rc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "tools/assimp_cmd/CompareDump.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "tools/assimp_cmd/ImageExtractor.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "tools/assimp_cmd/Main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "tools/assimp_cmd/Main.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"path" : "tools/assimp_cmd/resource.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "tools/assimp_cmd/WriteDump.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "tools/assimp_cmd/Info.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "tools/assimp_cmd/Export.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

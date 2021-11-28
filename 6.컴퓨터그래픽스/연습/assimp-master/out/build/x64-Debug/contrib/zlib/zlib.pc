@@ -1,0 +1,13 @@
+prefix=D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/install/x64-Debug
+exec_prefix=D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/install/x64-Debug
+libdir=
+sharedlibdir=
+includedir=
+
+Name: zlib
+Description: zlib compression library
+Version: 
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}

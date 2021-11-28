@@ -1,0 +1,9 @@
+libdir=D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/install/x64-Debug/lib
+includedir=D:/★과제물★/3학년 2학기/School_3.2/6.컴퓨터그래픽스/연습/assimp-master/out/install/x64-Debug/include
+
+Name: Assimp
+Description: Import various well-known 3D model formats in an uniform manner.
+Version: 5.1.0
+Libs: -L${libdir} -lassimp
+Libs.private:  
+Cflags: -I${includedir}
