@@ -151,12 +151,12 @@ std::vector<std::string> ResourceManager::readAllMaps()
 {
 	std::vector<std::string> maps;
 	std::string path = "levels";
-	if (!std::filesystem::exists(path)) return maps;
+	//if (!std::filesystem::exists(path)) return maps;
 
-	for (const auto& entry : std::filesystem::directory_iterator(path))
+	/*for (const auto& entry : std::filesystem::directory_iterator(path))
 	{
 		maps.push_back(entry.path().string());
-	}
+	}*/
 
 	return maps;
 }

@@ -65,8 +65,8 @@ void Game::init()
 	Renderer::initOpenGL();
 	Renderer::loadShader();
 
-	LuaManager::init();
-	LuaManager::loadScripts();
+	//LuaManager::init();
+	//LuaManager::loadScripts();
 
 	AudioManager::init();
 
@@ -196,7 +196,7 @@ void Game::gameLoop()
 
 	gameMode->deinit();
 	AudioManager::deinit();
-	LuaManager::deinit();
+	//LuaManager::deinit();
 	ConfigManager::writeAllConfigs();
 }
 

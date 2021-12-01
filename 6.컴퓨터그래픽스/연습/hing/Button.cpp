@@ -19,7 +19,7 @@ void Button::interact_click()
 	if (animDuration.count() < this->travel_duration) return;
 
 	this->markObject();
-	LuaManager::runFunction(interactLuaFunction_click);
+	//LuaManager::runFunction(interactLuaFunction_click);
 
 	lastInteractTimestamp = std::chrono::system_clock::now();
 	originalPosition = this->getPosition();
@@ -32,7 +32,7 @@ void Button::interact_hold()
 	if (interactLuaFunction_hold == "") return;
 
 	this->markObject();
-	LuaManager::runFunction(interactLuaFunction_hold);
+	//LuaManager::runFunction(interactLuaFunction_hold);
 }
 
 void Button::move()

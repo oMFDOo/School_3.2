@@ -1,6 +1,8 @@
 #include "Font.h"
 
 #define STB_TRUETYPE_IMPLEMENTATION
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "libs/stb_truetype.h"
 
 #include "Game.h"
@@ -16,7 +18,8 @@ void Font::initFont(const char* filename)
     uint8 *ttfBuffer = (uint8*) malloc(1<<20);
     uint8 tmpBitmap[512 * 512];
 
-    FILE* file = fopen(filename, "rb");
+    FILE* file;
+    fopen_s(&file, filename, "rb");
     fread(ttfBuffer, 1, 1 << 20, file);
     stbtt_BakeFontBitmap(ttfBuffer, 0, 32.0f, tmpBitmap, 512, 512, 32, 96, cdata);
 

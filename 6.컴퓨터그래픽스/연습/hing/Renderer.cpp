@@ -206,7 +206,7 @@ void Renderer::initOpenGL()
 #ifdef _DEBUG
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-	glDebugMessageCallback(openGLDebugCallback, 0);
+	//glDebugMessageCallback(openGLDebugCallback, 0);
 #endif // DEBUG
 
 	GLCALL(glEnable(GL_CULL_FACE));

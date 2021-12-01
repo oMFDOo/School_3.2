@@ -1,10 +1,12 @@
 #include "Logger.h"
+#define _CRT_SECURE_NO_WARNINGS
 
 
 void Logger::log(std::string message)
 {
 	time_t now = time(0);
-	tm* ltm = localtime(&now);
+	tm* ltm = NULL;
+	localtime_s(ltm, &now);
 
 	std::string time = "[";
 

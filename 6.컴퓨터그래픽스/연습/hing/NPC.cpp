@@ -12,7 +12,7 @@ NPC::NPC(Shader* shader) : Character(shader)
 	forwardSpeed = forwardSpeed * npc_speed_mult;
 	backwardSidewaySpeed = backwardSidewaySpeed * npc_speed_mult;
 
-	std::string path = "audio\\npc";
+	/*std::string path = "audio\\npc";
 	if (std::filesystem::exists(path))
 	{
 		for (const auto& entry : std::filesystem::directory_iterator(path))
@@ -20,7 +20,7 @@ NPC::NPC(Shader* shader) : Character(shader)
 			if(entry.path().string().find("random") != std::string::npos)
 				voicefiles.push_back(entry.path().string());
 		}
-	}
+	}*/
 
 }
 
