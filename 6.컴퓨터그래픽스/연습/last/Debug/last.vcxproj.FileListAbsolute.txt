@@ -1,0 +1,4 @@
+D:\★과제물★\3학년 2학기\School_3.2\6.컴퓨터그래픽스\연습\last\Debug\last.vcxproj.CopyComplete
+D:\★과제물★\3학년 2학기\School_3.2\6.컴퓨터그래픽스\연습\last\Debug\last.exe
+D:\★과제물★\3학년 2학기\School_3.2\6.컴퓨터그래픽스\연습\last\Debug\last.pdb
+D:\★과제물★\3학년 2학기\School_3.2\6.컴퓨터그래픽스\연습\last\Debug\freeglutd.dll

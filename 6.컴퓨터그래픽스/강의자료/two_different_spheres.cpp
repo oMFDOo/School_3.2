@@ -260,8 +260,8 @@ void my_special(int key, int x, int y) {
 
 
 
-void main(void)
-{
+void main(int argc, char** argv) {
+	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(500, 500);
