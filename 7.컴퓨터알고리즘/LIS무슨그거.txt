@@ -1,0 +1,19 @@
+LIS(start) = MAX(∀ next ∈ [start+1, N-1]&arr[start] < arr[next] | LIS(next) + 1)
+
+LIS(i) : arr[i]를 마지막으로 하는, 증가하는 최장부분순서열의 길이
+arr : 수열
+N : 수열의 크기
+
+∀ – 임의의
+∈ : 왼쪽이 오른쪽의 원소이다.
+
+조건1) ∀ next ∈ [start+1, N-1]
+ - next는 시작점 +1부터 크기의 -1까지에 속한 임의의 범위이다.
+
+조건2) arr[start] < arr[next]
+ - start는 next(다음 요소)보다 작아야한다.
+ - 증가하는 최장부분순서열은 순서열에 속한 값은 점점 커져야하기 때문
+
+실행) LIS(next) + 1
+ - 조건1)과 조건2)를 충족한다면, 다음 next를 실행한다.
+
