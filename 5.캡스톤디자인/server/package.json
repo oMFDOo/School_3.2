@@ -1,8 +1,10 @@
 {
   "dependencies": {
+    "axios": "^0.24.0",
     "express": "^4.17.1",
     "mariadb": "^2.5.5",
     "npm": "^8.1.4",
-    "sanitize-html": "^2.6.0"
+    "sanitize-html": "^2.6.0",
+    "serve": "^13.0.2"
   }
 }

@@ -1,5 +1,16 @@
-/*app.js*/
-var mysqlDB = require('./mysql-db');
-mysqlDB.connect();
+const mysql      = require('mysql');
+const connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : '< MySQL username >',
+  password : '< MySQL password >',
+  database : 'my_db'
+});
 
-/*source*/
+connection.connect();
+
+connection.query('SELECT * from Users', (error, rows, fields) => {
+  if (error) throw error;
+  console.log('User info is: ', rows);
+});
+
+connection.end();

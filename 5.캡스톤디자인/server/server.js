@@ -1,38 +1,3 @@
-// var mariaDB = require('mysql');
-// var db = mariaDB.createConnection({
-// 	DBHost: '127.0.0.1',
-// 	DBPort: 5555,
-// 	DBUser: 'root',
-// 	DBpass: '1234',
-// 	connectionLimit : 8,
-//     database:'opentutorials'
-// });
-
-// var connection = mariaDB.createConnection(conn); // DB 커넥션 생성
-// connection.connect();   // DB 접속
-
-// var testQuery = "INSERT INTO `members` (`username`,`password`) VALUES ('test','test');";
-
-// connection.query(testQuery, function (err, results, fields) { // testQuery 실행
-//     if (err) {
-//         console.log(err);
-//     }
-//     console.log(results);
-// });
-
-// testQuery = "SELECT * FROM MEMBERS";
-
-// connection.query(testQuery, function (err, results, fields) { // testQuery 실행
-//     if (err) {
-//         console.log(err);
-//     }
-//     console.log(results);
-// });
-
-
-// connection.end(); // DB 접속 종료
-
-
 const mariadb = require('mariadb');
 
 const pooll = mariadb.createPool({
@@ -43,6 +8,7 @@ const pooll = mariadb.createPool({
     database: 'hifiveDB',
     connectionLimit: 5
 });
+
 
 async function asyncFunction(query_, db_) {
 
@@ -63,6 +29,9 @@ async function asyncFunction(query_, db_) {
         const rows = await conn.query(query_);
         console.log(rows); //[ {val: 1}, meta: ... ]
 
+
+        console.log("결과임당" + rows["collation"]);
+
     } catch (err) {
         throw err;
     } finally {
@@ -72,17 +41,20 @@ async function asyncFunction(query_, db_) {
 }
 
 
-async function asyncFunct(){
+async function asyncFunct() {
     let ccc;
     ccc = await pooll.getConnection();
-    ccc.query("INSERT INTO SCHOOL(SCHOOL_NAME) VALUES('동동의대')", function(err, result, fields){
-        if(err){
+    ccc.query("SELECT SCHOOL_NAME FROM SCHOOL", function (err, result, fields) {
+        if (err) {
             console.log(err);
-        } else {
-            console.log(result);
+            throw err;
         }
+
     });
 }
 
 asyncFunct();
-asyncFunction("SELECT QUERY FROM LOG", 'hifiveDB');
+// Insert
+//asyncFunction("INSERT INTO SCHOOL(SCHOOL_NAME) VALUE ('이마대');", 'hifiveDB');
+// Select
+asyncFunction("SELECT SCHOOL_NAME FROM SCHOOL;", 'hifiveDB');
