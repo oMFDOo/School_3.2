@@ -11,13 +11,14 @@ output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
 # Loading image
-# cap = cv2.VideoCapture(0)
-# # 이미지 사이즈 설정
-# cap.set(3, 640)
-# cap.set(4, 480)
-# img = cv2.convert(np.asarray(cap), cv2.CV_8UC1)
-img = cv2.imread("../images/4.png")
+img = cv2.imread("../images/107748428_c9oqh-2w3g-1ayj08mjylwlpi46qabxgtyqa.jpg")
+
+
 img = cv2.resize(img, None, fx=0.4, fy=0.4)
+# 프레임을 정수형으로 형 변환
+# width = int(img.get(cv2.CAP_PROP_FRAME_WIDTH))	# 영상의 넓이(가로) 프레임
+# height = int(img.get(cv2.CAP_PROP_FRAME_HEIGHT))	# 영상의 높이(세로) 프레임
+
 height, width, channels = img.shape
 
 # Detecting objects
