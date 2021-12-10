@@ -161,15 +161,15 @@ while True:
     # 각 모드 정보 출력
 	img_pil2 = Image.fromarray(imgOut)
 	draw = ImageDraw.Draw(img_pil2)
-	font = ImageFont.truetype(fontpath[3], 15)
+	font = ImageFont.truetype(fontpath[3], 35)
 	draw.text((10,10), testModeTitle[testMode], font=font, fill=(255, 255, 255, a))
 	imgOut = np.array(img_pil2)
     
     # 사용 출력
 	img_pil2 = Image.fromarray(img)
 	draw = ImageDraw.Draw(img_pil2)
-	font = ImageFont.truetype(fontpath[3], 15)
-	draw.text((10,60), info, font=font, fill=(255, 255, 255, a))
+	font = ImageFont.truetype(fontpath[3], 30)
+	draw.text((10,60), info, font=font, fill=(0, 0, 0, a))
 	img = np.array(img_pil2)
     
     
