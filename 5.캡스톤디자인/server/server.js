@@ -25,12 +25,14 @@ async function asyncFunction(query_, db_) {
     let conn;
     try {
         conn = await pool.getConnection();
-        console.log("try");
+        console.log("try--");
         const rows = await conn.query(query_);
         console.log(rows); //[ {val: 1}, meta: ... ]
+        
 
 
-        console.log("결과임당" + rows["collation"]);
+        //console.log("결과임당" + rows["collation"]);
+
 
     } catch (err) {
         throw err;
@@ -44,7 +46,7 @@ async function asyncFunction(query_, db_) {
 async function asyncFunct() {
     let ccc;
     ccc = await pooll.getConnection();
-    ccc.query("SELECT SCHOOL_NAME FROM SCHOOL", function (err, result, fields) {
+    ccc.query("SELECT * FROM USER", function (err, result, fields) {
         if (err) {
             console.log(err);
             throw err;
@@ -57,4 +59,4 @@ asyncFunct();
 // Insert
 //asyncFunction("INSERT INTO SCHOOL(SCHOOL_NAME) VALUE ('이마대');", 'hifiveDB');
 // Select
-asyncFunction("SELECT SCHOOL_NAME FROM SCHOOL;", 'hifiveDB');
+asyncFunction("SELECT * FROM USER;", 'hifiveDB');
