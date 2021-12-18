@@ -318,10 +318,10 @@
 //	swichingShade();	// 쉐이드 모델 변경
 //	swichingMaterial();	// 재질 표현 법 변경
 //
+//	drawText();
 //	camera_setting();
 //	axis();
 //
-//	drawText();
 //
 //
 //	switch (sphere_drawing_type) {
