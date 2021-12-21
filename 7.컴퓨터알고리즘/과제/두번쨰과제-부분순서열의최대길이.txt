@@ -1,0 +1,59 @@
+#include <iostream>
+using namespace std;
+
+#include <stack>
+
+void LIS_DP(int A[100], int B[100], int C[100], int n) {
+    for (int i = 1; i <= n; i++) {
+        B[i] = 1; // 초기 LIS길이
+        C[i] = -1;
+        for (int j = 0; j < i; j++) { // j < i 인 j에 대해 반복
+          // j번째 수가 i번째 수(현재 LIS길이를 구하는 수)보다 작아야 하고
+          // d[i] < d[j]+1 이어야 d[i]를 update하는 조건이 된다
+            if (A[j] < A[i] && B[i] < B[j] + 1) {
+                B[i] = B[j] + 1;
+                C[i] = j;
+            }
+        }
+    }
+}
+
+
+int findLast(int B[100], int n) {
+    int max = B[1];
+    int idx = 0;
+    for (int i = 1; i <= n; i++) {
+        if (B[i] > max) {
+            max = B[i];
+            idx = i;
+        }
+    }
+    return idx;
+}
+
+
+void printLIS(int A[100], int C[100], int m) {
+    stack<int> s;
+    while (m != -1) {
+        s.push(A[m]);
+        m = C[m];
+    }
+    while (!s.empty()) {
+        cout << s.top() << " ";
+        s.pop();
+    }
+}
+
+int main() {
+    int A[100] = { 0 }; // 입력
+    int B[100] = { 0 }; // 최대부분순서열의 길이
+    int C[100] = { 0 }; // 최대부분순서열에서 이전 수의 색인
+    int n, m, i;
+
+    cin >> n;
+    for (i = 1; i <= n; i++) cin >> A[i];
+    LIS_DP(A, B, C, n);
+    m = findLast(B, n);
+    printLIS(A, C, m);
+    return 0;
+}
